@@ -7,9 +7,9 @@
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/util.h>
 
-namespace reflectionzeug 
+namespace reflectionzeug
 {
-    
+
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
 AbstractProperty::AbstractProperty()
@@ -29,16 +29,16 @@ std::string AbstractProperty::name() const
 {
     return m_name;
 }
-    
+
 bool AbstractProperty::setName(const std::string & name)
-{    
+{
     if (!util::matchesRegex(name, s_nameRegexString))
         return false;
-    
+
     m_name = name;
     return true;
 }
-    
+
 bool AbstractProperty::hasName() const
 {
     return !m_name.empty();
@@ -55,25 +55,21 @@ Variant AbstractProperty::option(const std::string & key) const
 void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
     m_options[key] = value;
-    optionChanged(key);
 }
 
 void AbstractProperty::setOptions(const VariantMap & map)
 {
-    for (auto pair : map)
-    {
-        m_options[pair.first] = pair.second;
-        optionChanged(pair.first);
-    }
+    auto options = map;
+    options.insert(m_options.begin(), m_options.end());
+    m_options = std::move(options);
 }
 
 bool AbstractProperty::removeOption(const std::string & key)
 {
     if (!this->hasOption(key))
         return false;
-        
+
     m_options.erase(key);
-    optionChanged(key);
     return true;
 }
 
@@ -116,7 +112,7 @@ const PropertyGroup * AbstractProperty::asGroup() const
 {
     return dynamic_cast<const PropertyGroup *>(this);
 }
-    
+
 bool AbstractProperty::isCollection() const
 {
     return false;
@@ -126,7 +122,7 @@ bool AbstractProperty::isValue() const
 {
     return false;
 }
-    
+
 bool AbstractProperty::isGroup() const
 {
     return false;
