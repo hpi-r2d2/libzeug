@@ -55,6 +55,7 @@ Variant AbstractProperty::option(const std::string & key) const
 void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
     m_options[key] = value;
+    optionChanged(key);
 }
 
 void AbstractProperty::setOptions(const VariantMap & map)
