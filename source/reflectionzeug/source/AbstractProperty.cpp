@@ -73,6 +73,7 @@ bool AbstractProperty::removeOption(const std::string & key)
         return false;
 
     m_options.erase(key);
+    optionChanged(key);
     return true;
 }
 
