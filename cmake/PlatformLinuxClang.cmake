@@ -1,11 +1,9 @@
-message(STATUS "Configuring for platform Linux/GCC.")
+message(STATUS "Configuring for platform Linux/Clang.")
 
 
 # Enable C++11 support
 
-message(STATUS "Configuring for Clang")
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
 
 include_directories("/usr/include/c++/v1/")
 
@@ -23,15 +21,9 @@ set(DEFAULT_COMPILE_DEFS_RELEASE
     NDEBUG                    # Release build
 )
 
-if (OPTION_ERRORS_AS_EXCEPTION OR NOT OPTION_BUILD_WITH_STD_REGEX)
-    set(EXCEPTION_FLAG "-fexceptions")
-else()
-    set(EXCEPTION_FLAG "-fno-exceptions")
-endif()
-
 set(LINUX_COMPILE_FLAGS 
       
-      ${EXCEPTION_FLAG}
+      -fexceptions  # -> enable exceptions
       -pthread      # -> use pthread library
     # -no-rtti      # -> disable c++ rtti
       -pipe         # -> use pipes
