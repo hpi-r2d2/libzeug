@@ -136,6 +136,9 @@ struct VariantConverterInit<std::string>
 
     static bool toBool(const std::string & string)
     {
+        if (string == "false")
+            return false;
+
         return !string.empty();
     }
 };
